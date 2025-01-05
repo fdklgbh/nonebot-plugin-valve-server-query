@@ -15,9 +15,15 @@ async def queries_server_info(ip_port: str) -> Union[bool, ServerInformationConf
         return False
     players: list[PlayerInformationConfig] = []
     for player_info in players_info:
+        name = player_info.name
+        if len(name) > 1:
+            if len(name) == 2:
+                name = f'{name[0]}*'
+            else:
+                name = name[0] + '*' * len(name[1:-1]) + name[-1]
         players.append(
             PlayerInformationConfig(
-                name=player_info.name,
+                name=name,
                 score=(
                     f"+{player_info.score}"
                     if player_info.score >= 0
